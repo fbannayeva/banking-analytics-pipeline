@@ -20,22 +20,17 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install dbt-duckdb faker pandas numpy
+        run: pip install dbt-duckdb duckdb faker pandas numpy
 
       - name: Generate data
         run: python scripts/generate_data.py
 
-      - name: Load raw data into DuckDB
+      - name: Load data into DuckDB
         run: python scripts/load_to_duckdb.py
 
       - name: dbt deps
         working-directory: dbt
         run: dbt deps
-
-      - name: dbt compile (syntax check)
-        working-directory: dbt
-        run: dbt compile --profiles-dir .
 
       - name: dbt run
         working-directory: dbt
@@ -44,13 +39,3 @@ jobs:
       - name: dbt test
         working-directory: dbt
         run: dbt test --profiles-dir .
-
-      - name: dbt docs generate
-        working-directory: dbt
-        run: dbt docs generate --profiles-dir .
-
-      - name: Upload dbt docs
-        uses: actions/upload-artifact@v3
-        with:
-          name: dbt-docs
-          path: dbt/target/
