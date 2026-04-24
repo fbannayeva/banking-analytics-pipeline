@@ -17,6 +17,8 @@ Covers the full lifecycle: raw data → dbt transformations → tests → BI das
 
 ## Architecture
 
+![Architecture](streamlit_screenshots/architecture.svg)
+
 \`\`\`
 Raw CSVs (simulated)
       |
@@ -136,28 +138,28 @@ banking-analytics-pipeline/
 ### Quickstart
 
 \`\`\`bash
-#### 1. Clone the repository
+# 1. Clone the repository
 git clone https://github.com/YOUR_USERNAME/banking-analytics-pipeline
 cd banking-analytics-pipeline
 
-#### 2. Create and activate virtual environment
+# 2. Create and activate virtual environment
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-#### 3. Generate synthetic data
+# 3. Generate synthetic data
 python scripts/generate_data.py
 
-#### 4. Load data into DuckDB
+# 4. Load data into DuckDB
 python scripts/load_to_duckdb.py
 
-#### 5. Run dbt models and tests
+# 5. Run dbt models and tests
 cd dbt
 dbt run --profiles-dir .
 dbt test --profiles-dir .
 cd ..
 
-#### 6. Launch dashboard
+# 6. Launch dashboard
 python -m streamlit run streamlit_app/app.py
 \`\`\`
 
