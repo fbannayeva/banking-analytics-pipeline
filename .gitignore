@@ -1,0 +1,10 @@
+data/raw/
+data/*.duckdb
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+__pycache__/
+*.pyc
+venv/
+metabase-data/
+.idea

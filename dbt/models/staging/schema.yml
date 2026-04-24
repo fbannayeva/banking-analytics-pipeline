@@ -1,0 +1,101 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw data loaded from CSV files into DuckDB"
+    tables:
+      - name: users
+      - name: transactions
+      - name: app_events
+      - name: cards
+
+models:
+  - name: stg_users
+    description: "Cleaned and renamed users table. One row per user."
+    columns:
+      - name: user_id
+        description: "Unique user identifier"
+        tests: [unique, not_null]
+      - name: kyc_status
+        tests:
+          - accepted_values:
+              values: ['verified', 'pending', 'failed']
+      - name: plan_type
+        tests:
+          - accepted_values:
+              values: ['free', 'smart', 'metal']
+
+  - name: stg_transactions
+    description: "Cleaned transactions. One row per transaction."
+    columns:
+      - name: transaction_id
+        tests: [unique, not_null]
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: amount
+        tests: [not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['completed', 'failed', 'pending']
+      - name: transaction_type
+        tests:
+          - accepted_values:
+              values: ['payment', 'transfer', 'atm']
+
+  - name: stg_app_events
+    description: "Cleaned app events. One row per event."
+    columns:
+      - name: event_id
+        tests: [unique, not_null]
+      - name: user_id
+        tests: [not_null]
+      - name: event_type
+        tests:
+          - accepted_values:
+              values: ['app_open', 'card_activated', 'first_transfer',
+                       'notification_clicked', 'settings_changed', 'support_opened']
+
+  - name: stg_cards
+    description: "Cleaned cards table."
+    columns:
+      - name: card_id
+        tests: [unique, not_null]
+      - name: user_id
+        tests: [not_null]
+      - name: card_status
+        tests:
+          - accepted_values:
+              values: ['active', 'blocked', 'cancelled']
+
+  - name: dim_users
+    description: >
+      Enriched user dimension. One row per user with lifetime transaction
+      stats, card info, and engagement segment. Primary table for
+      stakeholder self-service queries.
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+      - name: engagement_segment
+        tests:
+          - accepted_values:
+              values: ['dormant', 'low', 'medium', 'high']
+
+  - name: fct_transactions
+    description: "Clean transaction facts enriched with user dimensions."
+    columns:
+      - name: transaction_id
+        tests: [unique, not_null]
+
+  - name: fct_retention
+    description: "D1/D7/D30 cohort retention rates by signup month."
+
+  - name: fct_churn
+    description: "Monthly churn rate by country and plan type."
+
+  - name: fct_activation_funnel
+    description: "Onboarding funnel conversion rates by signup month."
