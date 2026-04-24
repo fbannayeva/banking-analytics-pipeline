@@ -10,3 +10,6 @@ metabase-data/
 .idea
 .DS_Store
 dbt/.user.yml
+.DS_Store
+**/.DS_Store
+dbt/.user.yml
