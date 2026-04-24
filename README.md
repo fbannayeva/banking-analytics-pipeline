@@ -19,27 +19,6 @@ Covers the full lifecycle: raw data → dbt transformations → tests → BI das
 
 ![Architecture](streamlit_screenshots/architecture.svg)
 
-\`\`\`
-Raw CSVs (simulated)
-      |
-      v
-DuckDB (local DWH)          <- designed for Redshift in production
-      |
-      v
-dbt Core
-  staging/              (views: rename, cast, clean)
-  intermediate/         (ephemeral: business logic)
-  marts/
-      finance/          (fct_transactions)
-      product/          (dim_users, fct_retention, fct_churn)
-      marketing/        (fct_activation_funnel)
-      |
-      v
-Streamlit Dashboard         <- internal analytics tool
-      |
-      v
-GitHub Actions CI/CD        <- automated dbt run + test on every push
-\`\`\`
 
 ---
 
