@@ -8,3 +8,5 @@ __pycache__/
 venv/
 metabase-data/
 .idea
+.DS_Store
+dbt/.user.yml
