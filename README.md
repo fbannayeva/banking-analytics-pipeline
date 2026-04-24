@@ -5,9 +5,9 @@ Covers the full lifecycle: raw data → dbt transformations → tests → BI das
 
 ## Dashboard Screenshots
 
-![KPI & Retention](docs/screenshots/dashboard_kpi_retention.png)
-![Funnel & Segments](docs/screenshots/dashboard_funnel_segments.png)
-![Churn & Volume](docs/screenshots/dashboard_churn_volume.png)
+![KPI & Retention](streamlit_screenshots/dashboard_kpi_retention.png)
+![Funnel & Segments](streamlit_screenshots/dashboard_funnel_segments.png)
+![Churn & Volume](streamlit_screenshots/dashboard_churn_volume.png)
 
 ## Architecture
 ## Tech Stack
